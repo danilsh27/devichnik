@@ -207,7 +207,7 @@
 
   <div class="setup-section">
     <span class="setup-label">👰 Имя невесты</span>
-    <input class="text-input" id="bride-input" placeholder="Например: Анжели" maxlength="20">
+    <input class="text-input" id="bride-input" placeholder="Имя" maxlength="20">
   </div>
 
   <div class="setup-section">
@@ -625,7 +625,7 @@ const GAME_META=[
 ];
 let config={
   bride:'',
-  players:['Влада','Ульяна','Алана','Рената','Фариза','Ноза'],
+  players:[],
   tone:'lite',
   games:{game100:true,quest:true,hotseat:true,toast:true,results:true}
 };
@@ -686,7 +686,7 @@ function openSetup(isEdit){
   document.getElementById('bride-input').value=config.bride;
   const ed=document.getElementById('players-editor');ed.innerHTML='';
   config.players.forEach(p=>addPlayerRow(p));
-  if(config.players.length===0){addPlayerRow('');addPlayerRow('');}
+  if(config.players.length===0){addPlayerRow('');addPlayerRow('');addPlayerRow('');}
   selectTone(config.tone);
   renderGamesEditor();
   document.getElementById('setup-cancel').style.display=isEdit?'block':'none';
