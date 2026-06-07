@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Девичник 💍 — игры для подружек</title>
 <meta name="description" content="Бесплатное приложение для девичника: 100 к 1, квест с заданиями, горячий стул и тосты. Настрой под свою невесту и подруг!">
+<!-- Превью для соцсетей (Open Graph / Twitter) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Девичник 💍 — игры для подружек">
+<meta property="og:description" content="100 к 1, квест, горячий стул и тосты. Настрой под свою невесту — бесплатно!">
+<meta property="og:image" content="https://danilsh27.github.io/devichnik/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://danilsh27.github.io/devichnik/">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Девичник 💍 — игры для подружек">
+<meta name="twitter:description" content="100 к 1, квест, горячий стул и тосты. Настрой под свою невесту — бесплатно!">
+<meta name="twitter:image" content="https://danilsh27.github.io/devichnik/og-image.png">
+<!-- PWA / установка на телефон -->
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <!-- Мобильное «приложение» -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -381,6 +397,13 @@
 </div>
 
 <script>
+// ── Регистрация Service Worker (офлайн-режим) ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
 // ═══════════════════════════════════════
 // ДАННЫЕ. {bride} автоматически заменяется на имя невесты.
 // Каждый игровой контент есть в двух тонах: lite и spicy (18+).
