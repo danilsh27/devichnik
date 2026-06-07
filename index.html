@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Девичник 💍 — игры для подружек</title>
+<meta name="description" content="Бесплатное приложение для девичника: 100 к 1, квест с заданиями, горячий стул и тосты. Настрой под свою невесту и подруг!">
+<!-- Мобильное «приложение» -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Девичник">
+<meta name="theme-color" content="#1A0A12">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --pink:#FF4D8D; --hot:#FF1F6B; --gold:#FFD166; --deep:#1A0A12; --soft:#FFB3D0; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--deep);color:#fff;font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,#3D0030 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,#2A0020 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,#200015 0%,transparent 50%);z-index:0;pointer-events:none}
+  .screen{position:relative;z-index:1;display:none;flex-direction:column;align-items:center;min-height:100vh;padding:30px 20px 60px;text-align:center}
+  .screen.active{display:flex}
+  .ring-emoji{font-size:80px;animation:spin 3s ease-in-out infinite;display:block;margin-bottom:10px}
+  @keyframes spin{0%,100%{transform:rotate(-15deg) scale(1)}50%{transform:rotate(15deg) scale(1.1)}}
+  h1.title{font-family:'Playfair Display',serif;font-size:clamp(38px,10vw,72px);line-height:1;background:linear-gradient(135deg,#FFD166,#FF4D8D,#fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+  .subtitle{font-size:16px;color:var(--soft);letter-spacing:3px;text-transform:uppercase;margin-bottom:40px}
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:420px;margin-bottom:24px}
+  .menu-btn{background:linear-gradient(135deg,rgba(255,77,141,.15),rgba(255,77,141,.05));border:1px solid rgba(255,77,141,.3);border-radius:20px;padding:22px 14px;cursor:pointer;transition:all .3s;color:#fff;font-family:'DM Sans',sans-serif}
+  .menu-btn:hover{transform:translateY(-3px);border-color:var(--pink);background:linear-gradient(135deg,rgba(255,77,141,.3),rgba(255,77,141,.1))}
+  .menu-btn .btn-icon{font-size:32px;display:block;margin-bottom:8px}
+  .menu-btn .btn-label{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--soft)}
+  .menu-btn .btn-name{font-family:'Playfair Display',serif;font-size:18px;margin-top:4px}
+  .btn{background:linear-gradient(135deg,var(--hot),var(--pink));border:none;border-radius:50px;padding:16px 36px;color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all .3s;letter-spacing:.5px;box-shadow:0 8px 30px rgba(255,31,107,.4)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,31,107,.5)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);box-shadow:none;color:rgba(255,255,255,.6);padding:12px 28px;font-size:14px}
+  .btn-ghost:hover{border-color:var(--soft);color:#fff;box-shadow:none}
+  .sec-header{width:100%;max-width:500px;margin-bottom:24px}
+  .back{display:flex;align-items:center;gap:6px;color:var(--soft);font-size:13px;cursor:pointer;margin-bottom:18px;background:none;border:none;padding:0}
+  .back:hover{color:#fff}
+  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,46px);line-height:1.1;margin-bottom:8px}
+  .sec-desc{color:var(--soft);font-size:14px;line-height:1.6}
+  .card{background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:24px 20px;width:100%;max-width:480px;margin-bottom:14px}
+
+  /* ── Верхняя панель меню ── */
+  .top-bar{position:absolute;top:16px;right:16px;left:16px;display:flex;justify-content:space-between;z-index:5}
+  .icon-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;color:#fff;transition:all .25s;display:flex;align-items:center;justify-content:center}
+  .icon-btn:hover{background:rgba(255,77,141,.25);border-color:var(--pink)}
+  .bride-chip{font-size:13px;color:var(--soft);margin-bottom:30px;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.25);border-radius:20px;padding:6px 16px}
+  .bride-chip b{color:var(--gold);font-family:'Playfair Display',serif}
+
+  /* ── Экран настройки ── */
+  .setup-section{width:100%;max-width:480px;margin-bottom:22px;text-align:left}
+  .setup-label{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:10px;display:block}
+  .text-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;transition:all .25s}
+  .text-input:focus{outline:none;border-color:var(--pink);background:rgba(255,77,141,.1)}
+  .text-input::placeholder{color:rgba(255,255,255,.3)}
+  .player-row{display:flex;gap:8px;margin-bottom:8px}
+  .player-row .text-input{flex:1}
+  .remove-x{background:rgba(255,50,50,.12);border:1px solid rgba(255,50,50,.3);border-radius:12px;width:46px;flex-shrink:0;color:#FF8080;font-size:18px;cursor:pointer;transition:all .2s}
+  .remove-x:hover{background:rgba(255,50,50,.3)}
+  .add-player{width:100%;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.25);border-radius:14px;padding:13px;color:var(--soft);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;transition:all .2s}
+  .add-player:hover{border-color:var(--pink);color:#fff}
+  .tone-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tone-opt{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px 12px;cursor:pointer;transition:all .25s;text-align:center}
+  .tone-opt .to-emoji{font-size:26px;display:block;margin-bottom:6px}
+  .tone-opt .to-name{font-weight:600;font-size:15px}
+  .tone-opt .to-desc{font-size:11px;color:var(--soft);margin-top:4px;line-height:1.4}
+  .tone-opt.selected{border-color:var(--pink);background:linear-gradient(135deg,rgba(255,77,141,.25),rgba(255,77,141,.08))}
+  .game-toggle{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:13px 16px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+  .game-toggle:hover{background:rgba(255,77,141,.1)}
+  .game-toggle .gt-icon{font-size:22px}
+  .game-toggle .gt-name{flex:1;font-size:15px;font-weight:600;text-align:left}
+  .switch{width:46px;height:26px;border-radius:20px;background:rgba(255,255,255,.15);position:relative;transition:all .25s;flex-shrink:0}
+  .switch::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:all .25s}
+  .game-toggle.on .switch{background:linear-gradient(135deg,var(--hot),var(--pink))}
+  .game-toggle.on .switch::after{left:23px}
+
+  /* ── 100 К 1 ── */
+  .question-num{color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .question-text{font-family:'Playfair Display',serif;font-size:clamp(18px,4.5vw,26px);line-height:1.3;margin-bottom:8px}
+  .host-hint{font-size:12px;color:rgba(255,209,102,.6);margin-bottom:16px;font-style:italic}
+  .answers-list{list-style:none;width:100%;max-width:480px}
+  .answer-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:13px 16px;margin-bottom:8px;cursor:pointer;transition:all .25s;font-size:14px;text-align:left;user-select:none}
+  .answer-item:hover:not(.revealed){background:rgba(255,77,141,.12);border-color:rgba(255,77,141,.35)}
+  .answer-item.revealed{background:linear-gradient(135deg,rgba(255,209,102,.18),rgba(255,209,102,.06));border-color:rgba(255,209,102,.6)}
+  .answer-num{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:var(--gold);transition:all .25s}
+  .answer-item.revealed .answer-num{background:var(--gold);color:var(--deep)}
+  .answer-text{flex:1;transition:opacity .2s}
+  .answer-points{color:var(--gold);font-weight:700;font-size:13px;min-width:52px;text-align:right;flex-shrink:0}
+  .answer-pts-val{font-size:15px;font-weight:800}
+  .answer-item:not(.revealed) .answer-pts-val{color:rgba(255,255,255,.2)}
+  .answer-item.revealed .answer-pts-val{color:var(--gold)}
+  .score-bar{display:flex;justify-content:space-between;width:100%;max-width:480px;margin-bottom:14px;gap:10px}
+  .team-score{flex:1;background:rgba(255,255,255,.05);border-radius:14px;padding:12px 16px;text-align:center;border:1px solid transparent;transition:all .3s}
+  .team-score.active{border-color:var(--pink);background:rgba(255,77,141,.12)}
+  .team-name{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--soft)}
+  .team-points{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)}
+  .strikes-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .strikes-label{font-size:12px;color:var(--soft)}
+  .strikes{display:flex;gap:6px}
+  .strike{width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,50,50,.3);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+  .strike.active{background:rgba(255,50,50,.35);border-color:rgb(255,50,50)}
+  .switch-banner{display:none;width:100%;max-width:480px;background:linear-gradient(135deg,rgba(255,31,107,.25),rgba(255,77,141,.1));border:1px solid rgba(255,77,141,.5);border-radius:16px;padding:14px 18px;margin-bottom:12px;font-family:'Playfair Display',serif;font-size:18px;animation:popIn .4s ease}
+  .switch-banner.visible{display:block}
+  @keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+
+  /* ── КВЕСТ ── */
+  .task-card{background:linear-gradient(135deg,rgba(255,77,141,.12),rgba(255,77,141,.03));border:1px solid rgba(255,77,141,.3);border-radius:24px;padding:28px 22px;width:100%;max-width:480px;margin-bottom:18px;position:relative;overflow:hidden}
+  .task-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,77,141,.15),transparent)}
+  .task-type{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:10px}
+  .task-text{font-family:'Playfair Display',serif;font-size:clamp(18px,4.5vw,24px);line-height:1.45;margin-bottom:16px}
+  .task-tip{font-size:13px;color:rgba(255,255,255,.5);font-style:italic}
+  .tokens-section{width:100%;max-width:480px;margin-top:24px}
+  .tokens-label{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--soft);margin-bottom:12px}
+  .tokens-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
+  .token-chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px 8px;text-align:center}
+  .token-chip .tc-name{font-size:12px;color:var(--soft);margin-bottom:4px}
+  .token-chip .tc-medals{font-size:16px;min-height:22px}
+
+  /* ── ГОРЯЧИЙ СТУЛ ── */
+  .spin-wrapper{position:relative;width:220px;height:220px;margin:10px auto 24px}
+  .spin-wheel{width:220px;height:220px;border-radius:50%;border:3px solid rgba(255,77,141,.4);position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,31,107,.25)}
+  .spin-wheel canvas{width:220px;height:220px;display:block}
+  .spin-needle{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:28px;z-index:10;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+  .spin-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--deep);border:3px solid var(--pink);z-index:10;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .hs-card{border-radius:24px;padding:30px 22px;width:100%;max-width:480px;margin-bottom:18px;position:relative;overflow:hidden;animation:cardIn .4s ease}
+  @keyframes cardIn{from{transform:scale(.9) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .hs-card.type-truth{background:linear-gradient(135deg,rgba(155,93,229,.18),rgba(155,93,229,.04));border:1px solid rgba(155,93,229,.4)}
+  .hs-card.type-dare{background:linear-gradient(135deg,rgba(255,31,107,.18),rgba(255,31,107,.04));border:1px solid rgba(255,31,107,.4)}
+  .hs-card.type-bride{background:linear-gradient(135deg,rgba(255,209,102,.18),rgba(255,209,102,.04));border:1px solid rgba(255,209,102,.4)}
+  .hs-badge{display:inline-block;border-radius:20px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  .type-truth .hs-badge{background:rgba(155,93,229,.25);color:#C4A0FF}
+  .type-dare .hs-badge{background:rgba(255,31,107,.25);color:#FF80B5}
+  .type-bride .hs-badge{background:rgba(255,209,102,.2);color:var(--gold)}
+  .hs-text{font-family:'Playfair Display',serif;font-size:clamp(19px,5vw,26px);line-height:1.45}
+  .hs-for{font-size:13px;margin-top:14px;color:rgba(255,255,255,.5)}
+  .hs-for span{color:var(--soft);font-weight:600}
+  .hot-seat-name{font-family:'Playfair Display',serif;font-size:clamp(22px,6vw,36px);color:var(--gold);margin-bottom:4px}
+  .hot-seat-sub{font-size:13px;color:var(--soft);margin-bottom:20px}
+
+  /* ── ИТОГИ / КОРОЛЕВА ── */
+  .podium{display:flex;flex-direction:column;gap:10px;width:100%;max-width:480px;margin-bottom:20px}
+  .podium-row{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 18px}
+  .podium-row.first{background:linear-gradient(135deg,rgba(255,209,102,.22),rgba(255,209,102,.05));border-color:rgba(255,209,102,.6)}
+  .podium-rank{font-size:24px;width:36px;text-align:center;flex-shrink:0}
+  .podium-name{flex:1;text-align:left;font-family:'Playfair Display',serif;font-size:18px}
+  .podium-medals{font-size:14px;color:var(--gold)}
+  .queen-banner{font-family:'Playfair Display',serif;font-size:clamp(24px,7vw,40px);color:var(--gold);margin-bottom:6px}
+
+  /* Оверлей выбора игрока */
+  .overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(26,10,18,.92);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center;padding:20px}
+  .overlay.open{display:flex}
+  .overlay-box{background:linear-gradient(160deg,#2A0A1E,#1A0A12);border:1px solid rgba(255,77,141,.3);border-radius:24px;padding:28px 20px;width:100%;max-width:480px;animation:slideUp .3s ease;max-height:88vh;overflow-y:auto}
+  @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .overlay-title{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px}
+  .overlay-sub{font-size:13px;color:var(--soft);margin-bottom:20px}
+  .overlay-box p{font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;text-align:left;margin-bottom:12px}
+  .overlay-box ol{text-align:left;font-size:14px;color:rgba(255,255,255,.75);line-height:1.8;padding-left:20px;margin-bottom:16px}
+  .player-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .player-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 10px;cursor:pointer;transition:all .2s;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600}
+  .player-btn:hover{background:rgba(255,77,141,.2);border-color:var(--pink);color:var(--gold)}
+  .player-btn .pbadge{font-size:11px;color:var(--soft);margin-top:4px;display:block}
+
+  /* Тосты */
+  .divider{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--pink),transparent);margin:20px auto}
+  .toast-type-badge{display:inline-block;border-radius:20px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+  .toast-funny .toast-type-badge{background:rgba(255,209,102,.15);color:var(--gold)}
+  .toast-warm .toast-type-badge{background:rgba(255,77,141,.15);color:var(--soft)}
+  .tag{display:inline-block;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+
+  /* Анимации */
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:999;animation:confetti-fall 3s ease-in forwards}
+  @keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+  .sticker{position:fixed;font-size:28px;pointer-events:none;z-index:998;animation:floatUp 1.5s ease-out forwards}
+  @keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.5)}}
+  .pop{animation:pop .4s ease}
+  @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  .nsfw-pill{display:inline-block;font-size:11px;background:rgba(255,31,107,.25);color:#FF80B5;border-radius:20px;padding:3px 10px;letter-spacing:1px;margin-bottom:14px}
+  footer{margin-top:auto;padding-top:28px;color:rgba(255,255,255,.2);font-size:12px}
+  footer a{color:rgba(255,179,208,.5);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- ══ НАСТРОЙКА / ОНБОРДИНГ ══ -->
+<div class="screen" id="screen-setup">
+  <span class="ring-emoji" style="font-size:60px">💍</span>
+  <h1 class="title" style="font-size:clamp(32px,8vw,52px)">Девичник</h1>
+  <p class="subtitle" id="setup-subtitle">Настройте под свою компанию</p>
+
+  <div class="setup-section">
+    <span class="setup-label">👰 Имя невесты</span>
+    <input class="text-input" id="bride-input" placeholder="Например: Анжели" maxlength="20">
+  </div>
+
+  <div class="setup-section">
+    <span class="setup-label">💃 Игроки (подружки)</span>
+    <div id="players-editor"></div>
+    <button class="add-player" onclick="addPlayerRow('')">+ Добавить подругу</button>
+  </div>
+
+  <div class="setup-section">
+    <span class="setup-label">🌡️ Режим вечеринки</span>
+    <div class="tone-toggle">
+      <div class="tone-opt" id="tone-lite" onclick="selectTone('lite')">
+        <span class="to-emoji">🌸</span><div class="to-name">Лайт</div>
+        <div class="to-desc">Прилично. Можно при родителях и коллегах</div>
+      </div>
+      <div class="tone-opt" id="tone-spicy" onclick="selectTone('spicy')">
+        <span class="to-emoji">🔥</span><div class="to-name">Огонь 18+</div>
+        <div class="to-desc">Пикантно и откровенно. Только свои!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="setup-section">
+    <span class="setup-label">🎮 Какие игры включить</span>
+    <div id="games-editor"></div>
+  </div>
+
+  <button class="btn" id="setup-save" style="width:100%;max-width:480px" onclick="saveSetup()">Поехали! 🎉</button>
+  <button class="btn btn-ghost" id="setup-cancel" style="width:100%;max-width:480px;margin-top:10px;display:none" onclick="goTo('screen-menu')">Отмена</button>
+</div>
+
+<!-- ══ МЕНЮ ══ -->
+<div class="screen" id="screen-menu">
+  <div class="top-bar">
+    <button class="icon-btn" onclick="openSetup(true)" title="Настройки">⚙️</button>
+    <button class="icon-btn" onclick="shareApp()" title="Поделиться">📤</button>
+  </div>
+  <span class="ring-emoji">💍</span>
+  <h1 class="title">Девичник</h1>
+  <p class="subtitle">Girls Only · Let's Party</p>
+  <div class="bride-chip" id="bride-chip"></div>
+  <div class="menu-grid" id="menu-grid"></div>
+  <button class="icon-btn" style="width:auto;border-radius:20px;padding:0 18px;gap:8px;font-size:14px" onclick="openInstallHelp()">📲 Установить на телефон</button>
+  <footer>Сделано с 💕 для невест и подруг · <a href="#" onclick="openSetup(true);return false">изменить компанию</a></footer>
+</div>
+
+<!-- ══ 100 К 1 ══ -->
+<div class="screen" id="screen-100">
+  <div class="sec-header">
+    <button class="back" onclick="goTo('screen-menu')">← Меню</button>
+    <div class="sec-title">100 к 1 💬</div>
+    <p class="sec-desc">Все ответы видны ведущему. Нажми на ответ — он открывается и начисляются очки. Один промах — ход к другой команде!</p>
+  </div>
+  <div class="score-bar">
+    <div class="team-score active" id="team1-score"><div class="team-name">👑 Команда 1</div><div class="team-points" id="team1-pts">0</div></div>
+    <div style="display:flex;align-items:center;color:var(--soft);font-size:18px;font-weight:700">VS</div>
+    <div class="team-score" id="team2-score"><div class="team-name">💎 Команда 2</div><div class="team-points" id="team2-pts">0</div></div>
+  </div>
+  <div class="card">
+    <div class="question-num" id="q-num">Вопрос 1 из 8</div>
+    <div class="question-text" id="q-text"></div>
+    <div class="host-hint">👁 Ведущий видит все варианты. Нажми на правильный ответ, чтобы открыть его и добавить очки!</div>
+    <div class="strikes-row">
+      <span class="strikes-label">Промахи активной команды:</span>
+      <div class="strikes" id="strikes-display"></div>
+    </div>
+  </div>
+  <div class="switch-banner" id="switch-banner"></div>
+  <ul class="answers-list" id="answers-list"></ul>
+  <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;justify-content:center">
+    <button class="btn btn-ghost" onclick="addStrike()">❌ Промах</button>
+    <button class="btn btn-ghost" onclick="next100Question()">→ Следующий вопрос</button>
+    <button class="btn" onclick="claimPoints()">✓ Забрать очки раунда</button>
+  </div>
+</div>
+
+<!-- ══ КВЕСТ ══ -->
+<div class="screen" id="screen-quest">
+  <div class="sec-header">
+    <button class="back" onclick="goTo('screen-menu')">← Меню</button>
+    <div class="sec-title">Квест 🗺️</div>
+    <p class="sec-desc">Ведущий тянет задание — кто выполняет, получает медаль! Больше медалей = Королева вечера 👑</p>
+  </div>
+  <div class="tag" id="quest-tag">Задание 1</div>
+  <div class="task-card" id="task-card">
+    <div class="task-type" id="task-type">Задание</div>
+    <div class="task-text" id="task-text">…</div>
+    <div class="task-tip" id="task-tip"></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+    <button class="btn btn-ghost" onclick="nextQuest()">🎲 Другое</button>
+    <button class="btn" onclick="openPlayerOverlay('quest')">✅ Выполнено!</button>
+  </div>
+  <div class="tokens-section">
+    <div class="tokens-label">🏅 Медали <span style="cursor:pointer;color:var(--soft);text-decoration:underline" onclick="resetTokens()">сбросить</span></div>
+    <div class="tokens-grid" id="token-grid"></div>
+  </div>
+</div>
+
+<!-- Оверлей выбора игрока -->
+<div class="overlay" id="player-overlay">
+  <div class="overlay-box">
+    <div class="overlay-title" id="overlay-title">Кто выполнила? 🎉</div>
+    <div class="overlay-sub" id="overlay-sub">Нажми на имя — она получает медаль!</div>
+    <div class="player-buttons" id="player-buttons"></div>
+    <button class="btn btn-ghost" style="width:100%" onclick="closePlayerOverlay()">Отмена</button>
+  </div>
+</div>
+
+<!-- Оверлей «как установить» -->
+<div class="overlay" id="install-overlay">
+  <div class="overlay-box">
+    <div class="overlay-title">📲 Установить как приложение</div>
+    <div class="overlay-sub">Чтобы открывать с домашнего экрана как обычное приложение:</div>
+    <p><b>iPhone (Safari):</b></p>
+    <ol>
+      <li>Нажми кнопку «Поделиться» <b>⬆️</b> внизу</li>
+      <li>Выбери «На экран “Домой”»</li>
+      <li>Готово — иконка 💍 появится на экране</li>
+    </ol>
+    <p><b>Android (Chrome):</b></p>
+    <ol>
+      <li>Нажми ⋮ в правом верхнем углу</li>
+      <li>«Добавить на главный экран» / «Установить приложение»</li>
+    </ol>
+    <p style="color:var(--soft);font-size:13px">💾 Все настройки и медали сохраняются прямо на телефоне.</p>
+    <button class="btn btn-ghost" style="width:100%" onclick="closeInstallHelp()">Понятно</button>
+  </div>
+</div>
+
+<!-- ══ ГОРЯЧИЙ СТУЛ ══ -->
+<div class="screen" id="screen-hotseat">
+  <div class="sec-header">
+    <button class="back" onclick="goTo('screen-menu')">← Меню</button>
+    <div class="sec-title">Горячий стул 🔥</div>
+    <p class="sec-desc">Крути колесо — оно выбирает игрока и карточку. Отказалась? Выпиваешь или выполняешь фант!</p>
+  </div>
+  <div id="hs-spin-view">
+    <p style="font-size:13px;color:var(--soft);margin-bottom:16px">Нажми на центр колеса, чтобы крутить!</p>
+    <div class="spin-wrapper">
+      <div class="spin-needle">👆</div>
+      <div class="spin-wheel"><canvas id="wheel-canvas" width="220" height="220"></canvas></div>
+      <div class="spin-center" onclick="spinWheel()">🔥</div>
+    </div>
+    <div id="spin-result-name" class="hot-seat-name" style="display:none"></div>
+    <div id="spin-result-sub" class="hot-seat-sub" style="display:none"></div>
+  </div>
+  <div id="hs-card-view" style="display:none;width:100%;max-width:480px">
+    <div class="hs-card" id="hs-card">
+      <div class="hs-badge" id="hs-badge">Правда</div>
+      <div class="hs-text" id="hs-text"></div>
+      <div class="hs-for" id="hs-for"></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px">
+      <button class="btn btn-ghost" onclick="drawNewCard()">🃏 Другая карточка</button>
+      <button class="btn" onclick="backToSpin()">🔄 Крутить снова</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ТОСТЫ ══ -->
+<div class="screen" id="screen-toast">
+  <div class="sec-header">
+    <button class="back" onclick="goTo('screen-menu')">← Меню</button>
+    <div class="sec-title">Тост 🥂</div>
+    <p class="sec-desc" id="toast-desc">Нажми — получи тост для невесты!</p>
+  </div>
+  <div class="card" style="text-align:left" id="toast-card">
+    <div id="toast-badge" class="toast-type-badge"></div>
+    <div id="toast-text" style="font-family:'Playfair Display',serif;font-size:clamp(16px,4.5vw,21px);line-height:1.65;font-style:italic"></div>
+    <div class="divider"></div>
+    <div id="toast-author" style="font-size:13px;color:var(--soft);text-align:right"></div>
+  </div>
+  <button class="btn" onclick="newToast()" style="margin-top:8px">🎲 Другой тост</button>
+</div>
+
+<!-- ══ ИТОГИ / КОРОЛЕВА ══ -->
+<div class="screen" id="screen-results">
+  <div class="sec-header">
+    <button class="back" onclick="goTo('screen-menu')">← Меню</button>
+    <div class="sec-title">Итоги 👑</div>
+    <p class="sec-desc">Кто набрала больше всего медалей в квесте — та и Королева вечера!</p>
+  </div>
+  <div id="queen-block" style="margin-bottom:16px"></div>
+  <div class="podium" id="podium"></div>
+  <button class="btn" onclick="confetti();floatEmoji('👑')" style="margin-top:8px">🎉 Поздравить королеву</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// ДАННЫЕ. {bride} автоматически заменяется на имя невесты.
+// Каждый игровой контент есть в двух тонах: lite и spicy (18+).
+// ═══════════════════════════════════════
+
+// ── 100 к 1 ──
+const questions100 = {
+  lite:[
+    { q:"Что невеста обязательно делает перед свадьбой?", answers:[
+      {text:"Покупает / примеряет платье",pts:34},{text:"Нервничает / не спит",pts:24},
+      {text:"Делает маникюр / педикюр",pts:16},{text:"Худеет / сидит на диете",pts:12},
+      {text:"Плачет от счастья",pts:8},{text:"Гуляет на девичнике",pts:6}]},
+    { q:"Что жених говорит невесте у алтаря?", answers:[
+      {text:"Да / согласен",pts:38},{text:"Ты прекрасна",pts:28},
+      {text:"Я люблю тебя",pts:18},{text:"Не могу поверить, что ты моя",pts:9},{text:"Ты моя навсегда",pts:7}]},
+    { q:"Что невеста бросает гостям на свадьбе?", answers:[
+      {text:"Букет цветов",pts:52},{text:"Подвязку",pts:28},
+      {text:"Воздушный поцелуй",pts:11},{text:"Конфеты / лепестки",pts:9}]},
+    { q:"Назовите обязательный атрибут девичника?", answers:[
+      {text:"Шампанское / вино",pts:36},{text:"Фата / тиара",pts:24},
+      {text:"Торт",pts:18},{text:"Фотограф / фотозона",pts:12},{text:"Музыка / танцы",pts:10}]},
+    { q:"Что жених делает, ожидая невесту у алтаря?", answers:[
+      {text:"Нервничает / волнуется",pts:42},{text:"Улыбается",pts:24},
+      {text:"Плачет",pts:16},{text:"Смотрит на гостей",pts:10},{text:"Поправляет галстук",pts:8}]},
+    { q:"Самое страшное, что может случиться на свадьбе?", answers:[
+      {text:"Жених / невеста сбежит",pts:34},{text:"Платье порвётся",pts:26},
+      {text:"Торт упадёт",pts:18},{text:"Кто-то напьётся",pts:14},{text:"Ведущий не придёт",pts:8}]},
+    { q:"Что невеста говорит подружкам за день до свадьбы?", answers:[
+      {text:"Я так нервничаю!",pts:38},{text:"Помогите мне!",pts:24},
+      {text:"Я не могу в это поверить",pts:18},{text:"Всё идёт не по плану!",pts:12},{text:"Я самая счастливая",pts:8}]},
+    { q:"Что делают подружки невесты на свадьбе?", answers:[
+      {text:"Танцуют",pts:30},{text:"Фотографируются",pts:26},
+      {text:"Плачут от радости",pts:20},{text:"Помогают невесте",pts:14},{text:"Ловят букет",pts:10}]},
+  ],
+  spicy:[
+    { q:"Что НЕЛЬЗЯ говорить мужу в первую брачную ночь?", answers:[
+      {text:"А мой бывший делал не так",pts:40},{text:"Я устала, давай спать",pts:26},
+      {text:"И это всё?",pts:16},{text:"Подожди, отвечу на сообщение",pts:10},{text:"Как тебя зовут?",pts:8}]},
+    { q:"Где пара чаще всего целуется (кроме спальни)?", answers:[
+      {text:"На кухне",pts:34},{text:"В машине",pts:26},
+      {text:"В лифте",pts:18},{text:"В душе",pts:14},{text:"На балконе",pts:8}]},
+    { q:"Что женщина ищет в мужчине, кроме внешности?", answers:[
+      {text:"Чувство юмора",pts:32},{text:"Деньги / стабильность",pts:26},
+      {text:"Заботу",pts:18},{text:"Руки откуда надо",pts:14},{text:"Уверенность",pts:10}]},
+    { q:"Что невеста спрятала бы от подружек на девичнике?", answers:[
+      {text:"Переписку с женихом",pts:34},{text:"Сколько выпила",pts:24},
+      {text:"Стриптизёра в программе",pts:20},{text:"Свои танцы",pts:14},{text:"Счёт за вечер",pts:8}]},
+    { q:"Самый странный комплимент от мужчины?", answers:[
+      {text:"Ты не такая, как все",pts:32},{text:"У тебя сильные руки",pts:26},
+      {text:"Ты вкусно пахнешь",pts:20},{text:"Ты ешь как нормальный человек",pts:14},{text:"Ты почти не бесишь",pts:8}]},
+    { q:"Что женщины делают перед свиданием?", answers:[
+      {text:"Переодеваются 100 раз",pts:36},{text:"Красятся",pts:26},
+      {text:"Бреют ноги",pts:18},{text:"Советуются в чате с подругами",pts:12},{text:"Опаздывают специально",pts:8}]},
+    { q:"Главный признак, что свидание прошло отлично?", answers:[
+      {text:"Поцелуй в конце",pts:34},{text:"Не смотрели в телефон",pts:24},
+      {text:"Засиделись до утра",pts:20},{text:"Сразу написал «когда увидимся?»",pts:14},{text:"Заплатил он",pts:8}]},
+    { q:"О чём подружки сплетничают на девичнике?", answers:[
+      {text:"О бывших",pts:34},{text:"О первой ночи невесты",pts:26},
+      {text:"О женихе",pts:18},{text:"О сексе вообще",pts:14},{text:"О свекрови",pts:8}]},
+  ]
+};
+
+// ── КВЕСТ ──
+const questTasks = {
+  lite:[
+    {type:"🎭 Пантомима",text:"Изобрази {bride} в момент, когда жених сделал ей предложение — только жестами, без слов!",tip:"30 секунд. {bride} оценивает точность 😄"},
+    {type:"🗣️ Признание",text:"Скажи {bride} самый честный и тёплый комплимент, который ты никогда не произносила вслух.",tip:"{bride} решает, засчитывается ли медаль"},
+    {type:"🎵 Музыкалка",text:"Пропой вслух любую строчку из песни, которую ассоциируешь с {bride} или с этой парой!",tip:"{bride} подтверждает, угадала ли ты"},
+    {type:"📸 Фото за 10 секунд",text:"Сделай самое смешное совместное фото с {bride} прямо сейчас!",tip:"Голосование: кто снял смешнее — медаль!"},
+    {type:"🧠 Правда-правда",text:"Расскажи историю о {bride}, которая всех удивит. Только правдивую!",tip:"{bride} может заблокировать — медаль не засчитывается"},
+    {type:"💃 Танец",text:"Станцуй с {bride} любой танец — минимум 30 секунд. Чем зажигательнее, тем лучше!",tip:"Аплодисменты гостей = медаль"},
+    {type:"🎨 Портрет",text:"Нарисуй портрет {bride} за 60 секунд — на телефоне, на салфетке, чём угодно!",tip:"Голосование за самый похожий или смешной"},
+    {type:"📜 Рэп-пожелание",text:"Придумай и прочитай пожелание {bride} в стиле рэп — минимум 4 строчки!",tip:"Читаем вслух с выражением и ритмом"},
+    {type:"🔮 Предсказание",text:"Предскажи {bride} три конкретных события из её первого года замужества!",tip:"Чем смешнее и точнее — тем лучше"},
+    {type:"🥂 Тост",text:"Произнеси тост за {bride} — минимум 5 предложений, без слов-паразитов!",tip:"Аплодисменты зала = медаль"},
+    {type:"🎤 Интервью",text:"Возьми интервью у {bride}: задай ей 3 вопроса, которые она точно не ожидает!",tip:"{bride} должна ответить честно на каждый"},
+    {type:"🤫 Секрет",text:"Расскажи смешной секрет о себе, который не знает {bride}. Пусть она угадает — правда или выдумка!",tip:"Если {bride} не угадывает — медаль твоя"},
+  ],
+  spicy:[
+    {type:"💋 Поцелуй",text:"Покажи на тыльной стороне ладони соседки свой фирменный поцелуй. Кто убедительнее — медаль!",tip:"{bride} в роли судьи 😏"},
+    {type:"🍑 Тверк",text:"Станцуй тверк 15 секунд. Не умеешь — тем смешнее и тем больше шансов на медаль!",tip:"Аплодисменты = медаль"},
+    {type:"🔥 Эффектно",text:"Сними с себя один аксессуар (серьгу, браслет, заколку) максимально соблазнительно под музыку.",tip:"Голосование зала"},
+    {type:"🍌 Без рук",text:"Съешь банан или конфету на скорость без помощи рук.",tip:"Кто быстрее и смешнее — медаль"},
+    {type:"😈 Признание",text:"Расскажи самое неожиданное место, где у тебя что-то было. Без подробностей — только локация!",tip:"{bride} решает, засчитать ли смелость"},
+    {type:"💃 Приватный танец",text:"Сделай шуточный соблазнительный танец для {bride} — 20 секунд в рамках веселья.",tip:"Реакция {bride} = медаль"},
+    {type:"📱 Дерзкое сообщение",text:"Отправь своему партнёру (или в чат подруг) самый дерзкий смайлик-намёк прямо сейчас.",tip:"Показываешь скрин — медаль"},
+    {type:"👅 Соблазн",text:"Соблазнительно съешь клубнику или леденец, глядя в глаза соседке слева.",tip:"Кто не засмеётся первым — медаль"},
+    {type:"🥵 Горячий комплимент",text:"Скажи {bride} комплимент, от которого она точно покраснеет.",tip:"Если {bride} покраснела — медаль твоя"},
+    {type:"🍒 Узелок",text:"Завяжи языком узел на черешневом / вишнёвом хвостике. Получилось — медаль!",tip:"Классика жанра 😏"},
+    {type:"🎤 Очень выразительно",text:"Изобрази, как ты наслаждаешься самой вкусной едой в жизни. Максимально выразительно!",tip:"Кто артистичнее — медаль"},
+    {type:"💄 След помады",text:"Оставь след помады на щеке того, кого выберет {bride}.",tip:"{bride} выбирает счастливчика"},
+    {type:"🩱 Дефиле",text:"Пройди по «подиуму» походкой модели и пошли воздушный поцелуй в финале.",tip:"Овации = медаль"},
+    {type:"📞 Звонок",text:"Позвони бывшему или другу и скажи комплимент его голосу. (Или скажи соседке 😈)",tip:"Группа решает уровень дерзости"},
+  ]
+};
+
+// ── ГОРЯЧИЙ СТУЛ ──
+const hsCards = {
+  lite:[
+    // правда
+    {type:"truth",text:"Кого из присутствующих ты бы взяла с собой на необитаемый остров и почему?"},
+    {type:"truth",text:"Был ли у тебя момент, когда ты думала, что влюбилась, но потом оказалось — нет?"},
+    {type:"truth",text:"Какой самый странный или неловкий момент у тебя был на свидании?"},
+    {type:"truth",text:"Расскажи о самом смешном провале в своей жизни."},
+    {type:"truth",text:"Какую черту характера подружки невесты ты хотела бы себе забрать?"},
+    {type:"truth",text:"Что ты сделала такого, за что тебе до сих пор немного стыдно? 😅"},
+    {type:"truth",text:"Какую ложь ты говоришь чаще всего — себе или другим?"},
+    {type:"truth",text:"Если бы ты могла поменяться жизнью с кем-то из присутствующих на один день — с кем и зачем?"},
+    {type:"truth",text:"Что ты никогда не скажешь маме, но можешь сказать здесь?"},
+    {type:"truth",text:"Какой была твоя самая провальная попытка произвести впечатление на кого-то?"},
+    {type:"truth",text:"Если бы тебе нужно было описать себя одним мемом — каким?"},
+    {type:"truth",text:"Какой совет по любви ты бы дала себе пять лет назад?"},
+    {type:"truth",text:"Что тебя по-настоящему раздражает, но ты обычно молчишь об этом?"},
+    {type:"truth",text:"Кто из знаменитостей тебе нравится, но ты стесняешься это признавать?"},
+    {type:"truth",text:"Опиши своего идеального партнёра тремя словами — честно!"},
+    {type:"truth",text:"Есть ли что-то, чего ты всегда хотела попробовать, но до сих пор не решилась?"},
+    // действие
+    {type:"dare",text:"Позвони первому человеку в контактах и скажи: «Ты сегодня потрясающе выглядишь!»"},
+    {type:"dare",text:"Станцуй с закрытыми глазами 30 секунд под любую музыку, которую включат девочки."},
+    {type:"dare",text:"Напиши комплимент каждой из девочек — прямо сейчас, вслух, по очереди!"},
+    {type:"dare",text:"Изобрази свадебное платье мечты из шарфа или пледа. 2 минуты!"},
+    {type:"dare",text:"Сделай селфи с {bride} в самой смешной позе и немедленно выложи в сторис."},
+    {type:"dare",text:"Изобрази трёх разных людей из зала — без слов. Все угадывают, кто есть кто."},
+    {type:"dare",text:"Произнеси тост за {bride}, но говорить можно только словами из трёх букв."},
+    {type:"dare",text:"Расскажи анекдот. Если никто не засмеётся — выпиваешь!"},
+    {type:"dare",text:"Сделай видео-поздравление для {bride} — максимально торжественно и пафосно."},
+    {type:"dare",text:"Придумай новое имя для себя на этот вечер и отзывайся только на него до конца игры."},
+    {type:"dare",text:"Сделай 10 приседаний, считая вслух на любом иностранном языке."},
+    {type:"dare",text:"Изобрази, как {bride} будет выглядеть через 30 лет. В лицах, позах, словах!"},
+    // невесте
+    {type:"bride",text:"{bride}, что было самым смешным в истории ваших отношений с женихом?"},
+    {type:"bride",text:"{bride}, что больше всего тебя раздражает в женихе, но ты уже смирилась? 😄"},
+    {type:"bride",text:"{bride}, как выглядит идеальный день в вашей совместной жизни?"},
+    {type:"bride",text:"{bride}, кто в паре чаще говорит «прости» первым?"},
+    {type:"bride",text:"{bride}, что ты скажешь жениху, когда увидишь его у алтаря?"},
+    {type:"bride",text:"{bride}, какую привычку жениха ты уже тихонько пытаешься изменить?"},
+    {type:"bride",text:"{bride}, опиши жениха тремя словами — честно!"},
+    {type:"bride",text:"{bride}, какой момент в ваших отношениях ты хотела бы прожить снова?"},
+  ],
+  spicy:[
+    // правда 18+
+    {type:"truth",text:"Сколько у тебя было партнёров? Можешь округлить... в любую сторону 😏"},
+    {type:"truth",text:"Самое необычное место, где у тебя что-то было?"},
+    {type:"truth",text:"Расскажи о худшем свидании в постельном плане — без имён."},
+    {type:"truth",text:"Твоя тайная фантазия, в которой ты не признаёшься партнёру?"},
+    {type:"truth",text:"Делала ли ты что-то горячее в публичном месте?"},
+    {type:"truth",text:"Игрушки для взрослых: есть, нет или «без комментариев»? 😈"},
+    {type:"truth",text:"С кем из знаменитостей ты бы провела ночь без последствий?"},
+    {type:"truth",text:"Что заводит тебя сильнее всего? Честно."},
+    {type:"truth",text:"Самая нелепая вещь, которую ты делала, чтобы понравиться кому-то?"},
+    {type:"truth",text:"Изменяла или изменяли тебе? Можешь сказать «пропускаю» — но тогда выпиваешь."},
+    {type:"truth",text:"Сколько длилось твоё самое короткое свидание и почему?"},
+    {type:"truth",text:"О чём ты однажды соврала партнёру в постели?"},
+    {type:"truth",text:"Твой главный «красный флаг» в людях, который ты всё равно иногда прощаешь?"},
+    {type:"truth",text:"Самый смелый твой опыт, о котором точно не знает мама?"},
+    // действие 18+
+    {type:"dare",text:"Покажи свой самый соблазнительный взгляд в камеру телефона — 5 секунд."},
+    {type:"dare",text:"Изобрази звуки бурной радости так, чтобы все засмеялись."},
+    {type:"dare",text:"Сделай селфи «доброе утро», будто после очень бурной ночи."},
+    {type:"dare",text:"Продемонстрируй три позы для соблазнительного фото."},
+    {type:"dare",text:"Станцуй у воображаемого шеста 20 секунд."},
+    {type:"dare",text:"Покажи на своей руке, как ты целуешься. С языком или без — решай сама 😏"},
+    {type:"dare",text:"Опиши вслух свой идеальный страстный вечер — в деталях."},
+    {type:"dare",text:"Сделай шлепок по своему бедру и строго скажи: «Плохая девочка»."},
+    {type:"dare",text:"Соблазнительно съешь клубнику или банан, глядя в глаза {bride}."},
+    {type:"dare",text:"Прошепчи соседке на ухо самый дерзкий комплимент, который придумаешь."},
+    {type:"dare",text:"Изобрази 3 типа поцелуев на тыльной стороне ладони. Девочки оценивают."},
+    {type:"dare",text:"Отправь партнёру голосовое максимально мурлыкающим голосом: «Я скучаю»."},
+    // невесте 18+
+    {type:"bride",text:"{bride}, где было ваше самое горячее свидание?"},
+    {type:"bride",text:"{bride}, сколько было свиданий до первого поцелуя?"},
+    {type:"bride",text:"{bride}, самая смелая вещь, которую вы пробовали вместе?"},
+    {type:"bride",text:"{bride}, кто инициатор чаще — ты или он?"},
+    {type:"bride",text:"{bride}, опиши вашу первую ночь одним словом."},
+    {type:"bride",text:"{bride}, что жених делает такого, от чего ты просто таешь?"},
+    {type:"bride",text:"{bride}, ваше любимое место в доме (и это точно не кухня) 😏?"},
+    {type:"bride",text:"{bride}, какой его комплимент заводит сильнее всего?"},
+  ]
+};
+
+// ── ТОСТЫ ──
+const toasts = {
+  lite:[
+    {type:"warm",text:"За {bride} — женщину, которая умеет любить так, что от этого теплеет весь мир вокруг. Пусть этот огонь не гаснет никогда!",author:"✨ Тост от сердца"},
+    {type:"warm",text:"Говорят, выйти замуж — значит найти лучшего друга. Но ты уже нашла нас. Значит, ты просто удваиваешь своё счастье!",author:"💕 Подруги"},
+    {type:"warm",text:"Пусть ваш брак будет как хорошее вино — чем старше, тем лучше. И пусть рядом всегда будет кто-то, кто открывает бутылку!",author:"🍷 Народная мудрость"},
+    {type:"warm",text:"За {bride} — она доказала, что сказки бывают. Просто иногда принцу нужно чуть дольше ехать на коне. Но он приехал!",author:"🏰 За сказку"},
+    {type:"warm",text:"Пусть в вашем доме будет всегда тепло, вкусно пахло, и кто-то всегда нажимал кнопку лифта заранее. Это и есть настоящая любовь.",author:"🏡 За быт и нежность"},
+    {type:"funny",text:"За {bride}! Ты уходишь замуж, но мы тебя не отпустим. Ты будешь получать наши голосовые в 23:47 с вопросом «ты спишь?» ещё очень долго.",author:"😂 Подруги навсегда"},
+    {type:"funny",text:"Говорят, муж — это навсегда. Подруги — тоже. Так что поздравляем: у тебя теперь вдвое больше людей, которые знают все твои истории.",author:"🙈 Правда жизни"},
+    {type:"funny",text:"За {bride}! Теперь у тебя официально есть человек, которому можно говорить «ты не так открыл упаковку» — и это называется любовь.",author:"😁 За настоящий брак"},
+    {type:"funny",text:"Брак — это когда ты нашла человека, с которым можно быть собой. То есть лежать на диване, есть вкусное и не объяснять, почему.",author:"🛋️ За счастье без фильтров"},
+    {type:"funny",text:"Желаем вам долгой совместной жизни. И чтобы вы никогда не смотрели в телефон друг друга. Особенно нашу переписку.",author:"🤫 Подруги с секретами"},
+    {type:"funny",text:"{bride}, мы рады за тебя. Искренне. Но список контактов группового чата никто не удалял. Мы здесь.",author:"📱 Подруги в любое время"},
+  ],
+  spicy:[
+    {type:"warm",text:"За {bride} и за ночи, которые делают утро по-настоящему ленивым. Пусть страсть не остывает даже на десятом году брака!",author:"🔥 За огонь в браке"},
+    {type:"funny",text:"За {bride}! С завтрашнего дня головная боль перестаёт работать как отмазка. Используй последний шанс мудро 😏",author:"😈 Честный совет"},
+    {type:"funny",text:"Желаем, чтобы фраза «дорогой, я устала» звучала как можно реже. А «дорогой, запри дверь» — как можно чаще!",author:"🚪 За правильные приоритеты"},
+    {type:"warm",text:"Любовь — это страсть, которая со временем становится нежностью, и нежность, которая иногда снова становится страстью. За оба состояния {bride}!",author:"💞 За всё сразу"},
+    {type:"funny",text:"За {bride}! Пусть медовый месяц будет таким, что вы забудете, как пользоваться телефоном. И номером официанта тоже.",author:"🍾 За медовый месяц"},
+    {type:"funny",text:"Говорят, после свадьбы страсть угасает. Наша задача как подруг — регулярно напоминать тебе, что это необязательно 😏",author:"💋 Подруги-провокаторы"},
+    {type:"warm",text:"За {bride} — пусть он любит тебя громко, целует жадно и обнимает так, будто нашёл сокровище. Потому что так и есть.",author:"✨ За настоящую любовь"},
+    {type:"funny",text:"За невесту! Теперь у тебя есть законное право будить мужа среди ночи. По любому поводу. Совершенно по любому 😈",author:"🌙 За ночные права"},
+  ]
+};
+
+// ═══════════════════════════════════════
+// КОНФИГ (сохраняется в браузере)
+// ═══════════════════════════════════════
+const CFG_KEY='bachelorette_cfg_v1';
+const TOK_KEY='bachelorette_tokens_v1';
+const GAME_META=[
+  {key:'game100',  id:'screen-100',     icon:'🎤', label:'Игра',  name:'100 к 1'},
+  {key:'quest',    id:'screen-quest',   icon:'🗺️', label:'Квест', name:'Задания'},
+  {key:'hotseat',  id:'screen-hotseat', icon:'🔥', label:'Игра',  name:'Горячий стул'},
+  {key:'toast',    id:'screen-toast',   icon:'🥂', label:'Тост',  name:'Случайный'},
+  {key:'results',  id:'screen-results', icon:'👑', label:'Финал', name:'Королева вечера'},
+];
+let config={
+  bride:'',
+  players:['Влада','Ульяна','Алана','Рената','Фариза','Ноза'],
+  tone:'lite',
+  games:{game100:true,quest:true,hotseat:true,toast:true,results:true}
+};
+
+function loadConfig(){
+  try{
+    const raw=localStorage.getItem(CFG_KEY);
+    if(raw){const c=JSON.parse(raw);config={...config,...c,games:{...config.games,...(c.games||{})}};return true;}
+  }catch(e){}
+  return false;
+}
+function persistConfig(){try{localStorage.setItem(CFG_KEY,JSON.stringify(config));}catch(e){}}
+
+// Все игроки: невеста (с короной) + подружки
+function getPlayers(){return [config.bride+' 👰',...config.players];}
+function fillBride(s){return (s||'').replaceAll('{bride}',config.bride);}
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let currentQ=0, currentTeam=1, team1pts=0, team2pts=0, strikes=0, revealed=[];
+let questIdx=0, tokens={}, shuffledQuests=[];
+let toastIdx=0;
+let hsCurrentPlayer=null, hsShuffledCards=[], hsCardIdx=0;
+let wheelAngle=0, isSpinning=false;
+let overlayContext='quest';
+let stolenMode=false;
+let activeQuestions=[], activeQuest=[], activeHs=[], activeToasts=[];
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function confetti(){
+  const c=['#FF4D8D','#FFD166','#FF1F6B','#fff','#FF80B5','#FFE4A0','#C4A0FF'];
+  for(let i=0;i<40;i++){const el=document.createElement('div');el.className='confetti-piece';
+  el.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${c[Math.floor(Math.random()*c.length)]};transform:rotate(${Math.random()*360}deg);animation-delay:${Math.random()*.8}s;width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),3500);}
+}
+function floatEmoji(e){const el=document.createElement('div');el.className='sticker';el.textContent=e;el.style.cssText=`left:${25+Math.random()*50}vw;bottom:120px;`;document.body.appendChild(el);setTimeout(()=>el.remove(),1600);}
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='screen-menu') renderMenu();
+  if(id==='screen-100') init100();
+  if(id==='screen-quest') initQuest();
+  if(id==='screen-hotseat') initHotSeat();
+  if(id==='screen-toast') initToasts();
+  if(id==='screen-results') renderResults();
+}
+
+// ═══════════════════════════════════════
+// НАСТРОЙКА / ОНБОРДИНГ
+// ═══════════════════════════════════════
+function openSetup(isEdit){
+  document.getElementById('bride-input').value=config.bride;
+  const ed=document.getElementById('players-editor');ed.innerHTML='';
+  config.players.forEach(p=>addPlayerRow(p));
+  if(config.players.length===0){addPlayerRow('');addPlayerRow('');}
+  selectTone(config.tone);
+  renderGamesEditor();
+  document.getElementById('setup-cancel').style.display=isEdit?'block':'none';
+  document.getElementById('setup-subtitle').textContent=isEdit?'Измени компанию и режим':'Настройте под свою компанию';
+  goToRaw('screen-setup');
+}
+function goToRaw(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+function addPlayerRow(val){
+  const ed=document.getElementById('players-editor');
+  const row=document.createElement('div');row.className='player-row';
+  row.innerHTML=`<input class="text-input pl-name" placeholder="Имя подруги" maxlength="20" value="${(val||'').replace(/"/g,'&quot;')}">
+    <button class="remove-x" title="Удалить">✕</button>`;
+  row.querySelector('.remove-x').onclick=()=>row.remove();
+  ed.appendChild(row);
+}
+function selectTone(t){
+  config.tone=t;
+  document.getElementById('tone-lite').classList.toggle('selected',t==='lite');
+  document.getElementById('tone-spicy').classList.toggle('selected',t==='spicy');
+}
+function renderGamesEditor(){
+  const ed=document.getElementById('games-editor');ed.innerHTML='';
+  GAME_META.forEach(g=>{
+    const on=config.games[g.key]!==false;
+    const row=document.createElement('div');
+    row.className='game-toggle'+(on?' on':'');
+    row.innerHTML=`<span class="gt-icon">${g.icon}</span><span class="gt-name">${g.name}</span><div class="switch"></div>`;
+    row.onclick=()=>{config.games[g.key]=!(config.games[g.key]!==false);renderGamesEditor();};
+    ed.appendChild(row);
+  });
+}
+function saveSetup(){
+  const bride=document.getElementById('bride-input').value.trim();
+  if(!bride){alert('Введите имя невесты 👰');document.getElementById('bride-input').focus();return;}
+  const names=[...document.querySelectorAll('.pl-name')].map(i=>i.value.trim()).filter(Boolean);
+  if(names.length<1){alert('Добавьте хотя бы одну подругу 💃');return;}
+  config.bride=bride;
+  config.players=names;
+  // хотя бы одна игра должна быть включена
+  if(!GAME_META.some(g=>config.games[g.key]!==false)){config.games.game100=true;}
+  persistConfig();
+  // обновим жетоны под новый состав
+  syncTokens();
+  confetti();
+  goTo('screen-menu');
+}
+
+// ═══════════════════════════════════════
+// МЕНЮ
+// ═══════════════════════════════════════
+function renderMenu(){
+  document.getElementById('bride-chip').innerHTML=`Невеста: <b>${config.bride}</b> · ${config.tone==='spicy'?'🔥 18+':'🌸 Лайт'} · ${config.players.length} подруг`;
+  const grid=document.getElementById('menu-grid');grid.innerHTML='';
+  GAME_META.forEach(g=>{
+    if(config.games[g.key]===false) return;
+    const b=document.createElement('button');b.className='menu-btn';
+    b.onclick=()=>goTo(g.id);
+    b.innerHTML=`<span class="btn-icon">${g.icon}</span><span class="btn-label">${g.label}</span><div class="btn-name">${g.name}</div>`;
+    grid.appendChild(b);
+  });
+}
+
+function shareApp(){
+  const data={title:'Девичник 💍 — игры для подружек',text:'Бесплатное приложение для девичника: 100 к 1, квест, горячий стул и тосты. Настрой под свою невесту!',url:location.href};
+  if(navigator.share){navigator.share(data).catch(()=>{});}
+  else{
+    const txt=data.text+' '+data.url;
+    if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>alert('Ссылка скопирована! Отправь подругам 💕')).catch(()=>prompt('Скопируй и отправь подругам:',txt));}
+    else prompt('Скопируй и отправь подругам:',txt);
+  }
+}
+function openInstallHelp(){document.getElementById('install-overlay').classList.add('open');}
+function closeInstallHelp(){document.getElementById('install-overlay').classList.remove('open');}
+
+// ═══════════════════════════════════════
+// 100 К 1
+// ═══════════════════════════════════════
+function init100(){
+  activeQuestions=questions100[config.tone];
+  currentQ=0;currentTeam=1;team1pts=0;team2pts=0;strikes=0;stolenMode=false;
+  hideBanner();render100Question();updateScores();
+}
+function render100Question(){
+  if(currentQ>=activeQuestions.length){endGame100();return;}
+  revealed=new Array(activeQuestions[currentQ].answers.length).fill(false);
+  strikes=0;stolenMode=false;
+  hideBanner();
+  document.getElementById('q-num').textContent=`Вопрос ${currentQ+1} из ${activeQuestions.length}`;
+  document.getElementById('q-text').textContent=fillBride(activeQuestions[currentQ].q);
+  renderAnswers();renderStrikes();
+}
+function renderAnswers(){
+  const data=activeQuestions[currentQ];
+  const list=document.getElementById('answers-list');list.innerHTML='';
+  data.answers.forEach((a,i)=>{
+    const li=document.createElement('li');
+    li.className='answer-item'+(revealed[i]?' revealed':'');
+    li.innerHTML=`
+      <div class="answer-num">${i+1}</div>
+      <span class="answer-text">${fillBride(a.text)}</span>
+      <span class="answer-points"><span class="answer-pts-val">${a.pts}</span> <span style="font-size:11px;opacity:.7">очк.</span></span>`;
+    if(!revealed[i]) li.onclick=()=>revealAndScore(i);
+    else li.style.cursor='default';
+    list.appendChild(li);
+  });
+}
+function revealAndScore(idx){
+  if(revealed[idx]) return;
+  revealed[idx]=true;
+  const pts=activeQuestions[currentQ].answers[idx].pts;
+  if(currentTeam===1) team1pts+=pts; else team2pts+=pts;
+  floatEmoji('✨');renderAnswers();updateScores();
+  if(stolenMode){
+    stolenMode=false;
+    showBanner(`💎 Кража удалась! +${pts} очков Команде ${currentTeam}!`);
+    setTimeout(()=>{hideBanner();next100Question();},2000);
+  }
+}
+function addStrike(){
+  if(strikes>=1) return;
+  strikes=1;floatEmoji('❌');renderStrikes();
+  const prevTeam=currentTeam;
+  currentTeam=currentTeam===1?2:1;stolenMode=true;updateScores();
+  showBanner(`❌ Промах Команды ${prevTeam}! Команда ${currentTeam} — одна попытка украсть очки!`);
+}
+function claimPoints(){confetti();setTimeout(()=>{hideBanner();next100Question();},400);}
+function showBanner(msg){const b=document.getElementById('switch-banner');b.textContent=msg;b.classList.add('visible');}
+function hideBanner(){document.getElementById('switch-banner').classList.remove('visible');}
+function renderStrikes(){
+  const d=document.getElementById('strikes-display');d.innerHTML='';
+  const s=document.createElement('div');s.className='strike'+(strikes>0?' active':'');
+  s.textContent=strikes>0?'✗':'';d.appendChild(s);
+}
+function updateScores(){
+  document.getElementById('team1-pts').textContent=team1pts;
+  document.getElementById('team2-pts').textContent=team2pts;
+  document.getElementById('team1-score').className='team-score'+(currentTeam===1?' active':'');
+  document.getElementById('team2-score').className='team-score'+(currentTeam===2?' active':'');
+}
+function next100Question(){currentQ++;currentTeam=currentTeam===1?2:1;updateScores();render100Question();}
+function endGame100(){
+  confetti();
+  const winner=team1pts>team2pts?'👑 Команда 1':team2pts>team1pts?'💎 Команда 2':'Ничья!';
+  document.getElementById('q-text').textContent=`Игра окончена! Победитель: ${winner} 🎉`;
+  document.getElementById('q-num').textContent=`Команда 1: ${team1pts} | Команда 2: ${team2pts}`;
+  document.getElementById('answers-list').innerHTML='';hideBanner();
+}
+
+// ═══════════════════════════════════════
+// КВЕСТ
+// ═══════════════════════════════════════
+function syncTokens(){
+  let saved={};try{saved=JSON.parse(localStorage.getItem(TOK_KEY))||{};}catch(e){}
+  const fresh={};getPlayers().forEach(p=>{fresh[p]=saved[p]||0;});
+  tokens=fresh;localStorage.setItem(TOK_KEY,JSON.stringify(tokens));
+}
+function persistTokens(){try{localStorage.setItem(TOK_KEY,JSON.stringify(tokens));}catch(e){}}
+function initQuest(){
+  activeQuest=questTasks[config.tone];
+  shuffledQuests=shuffle(activeQuest);questIdx=0;
+  syncTokens();renderTokenGrid();renderQuest();
+}
+function renderQuest(){
+  const t=shuffledQuests[questIdx%shuffledQuests.length];
+  document.getElementById('quest-tag').textContent=`Задание ${questIdx+1}`;
+  document.getElementById('task-type').textContent=t.type;
+  document.getElementById('task-text').textContent=fillBride(t.text);
+  document.getElementById('task-tip').textContent=t.tip?`💡 ${fillBride(t.tip)}`:'';
+  const c=document.getElementById('task-card');c.classList.add('pop');setTimeout(()=>c.classList.remove('pop'),400);
+}
+function nextQuest(){questIdx++;renderQuest();}
+function resetTokens(){if(confirm('Обнулить все медали?')){getPlayers().forEach(p=>tokens[p]=0);persistTokens();renderTokenGrid();}}
+function openPlayerOverlay(ctx){
+  overlayContext=ctx;
+  const btns=document.getElementById('player-buttons');btns.innerHTML='';
+  const isHs=ctx==='hotseat';
+  document.getElementById('overlay-title').textContent=isHs?'Кто на горячем стуле? 🔥':'Кто выполнила? 🎉';
+  document.getElementById('overlay-sub').textContent=isHs?'Нажми на имя — она садится!':'Нажми на имя — медаль её!';
+  getPlayers().forEach(name=>{
+    const btn=document.createElement('button');btn.className='player-btn';
+    btn.innerHTML=`${name}${!isHs?`<span class="pbadge">🏅 ${tokens[name]||0}</span>`:''}`;
+    btn.onclick=()=>isHs?selectHsPlayer(name):awardMedal(name);
+    btns.appendChild(btn);
+  });
+  document.getElementById('player-overlay').classList.add('open');
+}
+function closePlayerOverlay(){document.getElementById('player-overlay').classList.remove('open');}
+function awardMedal(name){
+  tokens[name]=(tokens[name]||0)+1;persistTokens();
+  closePlayerOverlay();floatEmoji('🏅');confetti();
+  renderTokenGrid();questIdx++;renderQuest();
+}
+function renderTokenGrid(){
+  const grid=document.getElementById('token-grid');grid.innerHTML='';
+  Object.entries(tokens).sort((a,b)=>b[1]-a[1]).forEach(([name,count])=>{
+    const div=document.createElement('div');div.className='token-chip';
+    div.innerHTML=`<div class="tc-name">${name}</div><div class="tc-medals">${count>0?'🏅'.repeat(Math.min(count,8)):'—'}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════
+// ГОРЯЧИЙ СТУЛ
+// ═══════════════════════════════════════
+function initHotSeat(){
+  activeHs=hsCards[config.tone];
+  hsShuffledCards=shuffle(activeHs);hsCardIdx=0;hsCurrentPlayer=null;
+  document.getElementById('hs-spin-view').style.display='';
+  document.getElementById('hs-card-view').style.display='none';
+  document.getElementById('spin-result-name').style.display='none';
+  document.getElementById('spin-result-sub').style.display='none';
+  drawWheel(0);
+}
+function drawWheel(angle){
+  const canvas=document.getElementById('wheel-canvas');
+  const ctx=canvas.getContext('2d');
+  const cx=110,cy=110,r=107,pl=getPlayers(),n=pl.length;
+  const colors=['#FF4D8D','#9B5DE5','#FF1F6B','#FFD166','#FF80B5','#C4A0FF','#FF6BAE'];
+  ctx.clearRect(0,0,220,220);
+  for(let i=0;i<n;i++){
+    const s=angle+i*(2*Math.PI/n),e=angle+(i+1)*(2*Math.PI/n);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);
+    ctx.fillStyle=colors[i%colors.length];ctx.fill();
+    ctx.strokeStyle='rgba(26,10,18,.5)';ctx.lineWidth=2;ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(s+(e-s)/2);
+    ctx.textAlign='right';ctx.fillStyle='#fff';ctx.font='bold 13px DM Sans,sans-serif';
+    let label=pl[i].replace(' 👰','');if(label.length>9)label=label.slice(0,8)+'…';
+    ctx.fillText(label,r-10,5);ctx.restore();
+  }
+  ctx.beginPath();ctx.arc(cx,cy,20,0,2*Math.PI);ctx.fillStyle='#1A0A12';ctx.fill();
+}
+function spinWheel(){
+  if(isSpinning)return;isSpinning=true;
+  const pl=getPlayers();
+  document.getElementById('spin-result-name').style.display='none';
+  document.getElementById('spin-result-sub').style.display='none';
+  const extraSpins=5+Math.floor(Math.random()*5);
+  const targetIdx=Math.floor(Math.random()*pl.length);
+  const seg=2*Math.PI/pl.length;
+  const targetAngle=-(Math.PI/2)-(targetIdx*seg+seg/2);
+  const total=extraSpins*2*Math.PI+(((targetAngle-wheelAngle)%(2*Math.PI)+2*Math.PI)%(2*Math.PI));
+  const dur=4000,start=performance.now(),startAngle=wheelAngle;
+  function animate(now){
+    const t=Math.min((now-start)/dur,1),ease=1-Math.pow(1-t,4);
+    drawWheel(startAngle+total*ease);
+    if(t<1){requestAnimationFrame(animate);}
+    else{
+      wheelAngle=startAngle+total;isSpinning=false;hsCurrentPlayer=pl[targetIdx];
+      document.getElementById('spin-result-name').textContent=hsCurrentPlayer;
+      document.getElementById('spin-result-name').style.display='block';
+      document.getElementById('spin-result-sub').textContent='На горячем стуле! Тяни карточку 🔥';
+      document.getElementById('spin-result-sub').style.display='block';
+      floatEmoji('🔥');setTimeout(showHsCard,800);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+function showHsCard(){
+  renderHsCard(hsShuffledCards[hsCardIdx%hsShuffledCards.length]);
+  document.getElementById('hs-spin-view').style.display='none';
+  document.getElementById('hs-card-view').style.display='';
+}
+function renderHsCard(card){
+  const el=document.getElementById('hs-card');
+  el.className='hs-card type-'+card.type;
+  document.getElementById('hs-badge').textContent={truth:'🟣 Правда',dare:'🔴 Действие',bride:'⭐ Вопрос невесте'}[card.type];
+  document.getElementById('hs-text').textContent=fillBride(card.text);
+  const f=document.getElementById('hs-for');
+  if(card.type==='bride'){f.style.display='none';}
+  else{f.style.display='block';f.innerHTML=`Отвечает: <span>${hsCurrentPlayer}</span>`;}
+  hsCardIdx++;
+}
+function drawNewCard(){
+  renderHsCard(hsShuffledCards[hsCardIdx%hsShuffledCards.length]);
+  const el=document.getElementById('hs-card');el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),400);
+}
+function backToSpin(){
+  document.getElementById('hs-spin-view').style.display='';
+  document.getElementById('hs-card-view').style.display='none';
+  document.getElementById('spin-result-name').style.display='none';
+  document.getElementById('spin-result-sub').style.display='none';
+}
+function selectHsPlayer(name){hsCurrentPlayer=name;closePlayerOverlay();showHsCard();}
+
+// ═══════════════════════════════════════
+// ТОСТЫ
+// ═══════════════════════════════════════
+function initToasts(){
+  activeToasts=toasts[config.tone];
+  document.getElementById('toast-desc').textContent=`Нажми — получи тост для ${config.bride}!`;
+  toastIdx=Math.floor(Math.random()*activeToasts.length);renderToast();
+}
+function renderToast(){
+  const t=activeToasts[toastIdx%activeToasts.length];
+  const card=document.getElementById('toast-card');
+  const badge=document.getElementById('toast-badge');
+  badge.className='toast-type-badge toast-'+t.type;
+  badge.textContent=t.type==='funny'?'😂 Смешной':'💕 Тёплый';
+  document.getElementById('toast-text').textContent=`"${fillBride(t.text)}"`;
+  document.getElementById('toast-author').textContent=t.author;
+  card.classList.add('pop');setTimeout(()=>card.classList.remove('pop'),400);
+}
+function newToast(){toastIdx++;floatEmoji('🥂');renderToast();}
+
+// ═══════════════════════════════════════
+// ИТОГИ / КОРОЛЕВА ВЕЧЕРА
+// ═══════════════════════════════════════
+function renderResults(){
+  syncTokens();
+  const entries=Object.entries(tokens).sort((a,b)=>b[1]-a[1]);
+  const queenBlock=document.getElementById('queen-block');
+  const podium=document.getElementById('podium');podium.innerHTML='';
+  const max=entries.length?entries[0][1]:0;
+  if(max===0){
+    queenBlock.innerHTML=`<div class="sec-desc">Пока нет ни одной медали. Сыграйте в «Квест» 🗺️ — и победительница появится здесь!</div>`;
+  }else{
+    const queens=entries.filter(([n,c])=>c===max).map(([n])=>n);
+    queenBlock.innerHTML=`<div style="font-size:48px">👑</div><div class="queen-banner">${queens.join(', ')}</div><div class="sec-desc">Королева вечера! ${max} ${pluralMedals(max)}</div>`;
+  }
+  const ranks=['🥇','🥈','🥉'];
+  entries.forEach(([name,count],i)=>{
+    const row=document.createElement('div');row.className='podium-row'+(i===0&&count>0?' first':'');
+    row.innerHTML=`<div class="podium-rank">${count>0&&i<3?ranks[i]:(i+1)+'.'}</div><div class="podium-name">${name}</div><div class="podium-medals">${count>0?'🏅'.repeat(Math.min(count,10)):'—'} ${count}</div>`;
+    podium.appendChild(row);
+  });
+}
+function pluralMedals(n){const a=Math.abs(n)%100,b=a%10;if(a>10&&a<20)return'медалей';if(b>1&&b<5)return'медали';if(b===1)return'медаль';return'медалей';}
+
+// ═══════════════════════════════════════
+// СТАРТ
+// ═══════════════════════════════════════
+(function start(){
+  const had=loadConfig();
+  if(had && config.bride){
+    syncTokens();goTo('screen-menu');
+  }else{
+    openSetup(false);
+  }
+})();
+</script>
+</body>
+</html>
